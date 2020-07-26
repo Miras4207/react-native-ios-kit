@@ -25,8 +25,13 @@ type Props = {
   }) => ?React.Element<*>,
   ItemSeparatorComponent?: React.ComponentType<*>,
   SectionSeparatorComponent: *,
+  enableSections?: boolean,
   sections?: Array<string>,
   sectionsStyle?: ViewStyleProp,
+  onEndReachedThreshold: any,
+  onEndReached: any,
+  ListFooterComponent: any,
+  refreshControl: any,
   sectionPrimaryColor?: string,
   getItemLayout?: (
     data: any,
@@ -126,6 +131,7 @@ class GroupedList extends React.PureComponent<Props, State> {
     const {
       sections,
       sectionsStyle,
+      enableSections,
       sectionPrimaryColor,
       getItemLayout,
       ItemSeparatorComponent,
@@ -135,6 +141,10 @@ class GroupedList extends React.PureComponent<Props, State> {
       renderSectionFooter,
       stickySectionHeadersEnabled,
       keyExtractor,
+      onEndReachedThreshold,
+      onEndReached,
+      ListFooterComponent,
+      refreshControl
     } = this.props;
 
     const deafultKeyExtractor = item => item.key || item.id;
@@ -165,13 +175,17 @@ class GroupedList extends React.PureComponent<Props, State> {
           getItemLayout={getItemLayout}
           stickySectionHeadersEnabled={stickySectionHeadersEnabled}
           keyExtractor={keyExtractor || deafultKeyExtractor}
+          onEndReachedThreshold={onEndReachedThreshold}
+          onEndReached={onEndReached}
+          ListFooterComponent={ListFooterComponent}
+          refreshControl={refreshControl}
         />
-        <Sections
-          onSectionPress={this.handleSectionPress}
-          items={sections || alphabet}
-          style={sectionsStyle}
-          sectionPrimaryColor={sectionPrimaryColor}
-        />
+        {enableSections && <Sections
+           onSectionPress={this.handleSectionPress}
+           items={sections || alphabet}
+           style={sectionsStyle}
+           sectionPrimaryColor={sectionPrimaryColor}
+         />}
       </View>
     );
   }

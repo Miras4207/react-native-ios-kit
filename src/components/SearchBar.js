@@ -57,6 +57,9 @@ type Props = {
    * Callback invoked on text input blur
    */
   onBlur?: () => void,
+
+  onCancelInput?: any,
+  onClear?: any,
 };
 
 type State = {
@@ -79,10 +82,16 @@ class SearchBar extends React.Component<Props, State> {
 
   _input = undefined;
 
-  clearInput = (): void =>
+  clearInput = (): void => {
+    console.log("SearchBar::clearInput");
     this.props.onValueChange && this.props.onValueChange('');
+    if (typeof this.props.onClear === 'function') this.props.onClear();
+  }
+
   cancelInput = (): void => {
+    console.log("SearchBar::cancelInput");
     this.props.onValueChange && this.props.onValueChange('');
+    if (typeof this.props.onCancel === 'function') this.props.onCancel();
     if (this._input) this._input.blur();
   };
   focusInput = (): void => {
@@ -124,6 +133,11 @@ class SearchBar extends React.Component<Props, State> {
         placeholderColor,
         textColor,
         primaryColor,
+        paddingBottom,
+        shadowColor,
+        shadowOpacity,
+        shadowRadius,
+        shadowOffset,
       },
       withCancel,
       cancelText,
@@ -132,7 +146,7 @@ class SearchBar extends React.Component<Props, State> {
     const { anim, cancelWidth } = this.state;
     const { width } = Dimensions.get('window');
     return (
-      <View style={[{ backgroundColor, width }, styles.container]}>
+      <View style={[styles.container, { width, backgroundColor, shadowColor, shadowOpacity, shadowRadius, shadowOffset, paddingBottom }]}>
         <TouchableHighlight
           underlayColor={backgroundColor}
           onPress={this.focusInput}
