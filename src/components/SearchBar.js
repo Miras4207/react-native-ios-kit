@@ -83,13 +83,11 @@ class SearchBar extends React.Component<Props, State> {
   _input = undefined;
 
   clearInput = (): void => {
-    console.log("SearchBar::clearInput");
     this.props.onValueChange && this.props.onValueChange('');
     if (typeof this.props.onClear === 'function') this.props.onClear();
   }
 
   cancelInput = (): void => {
-    console.log("SearchBar::cancelInput");
     this.props.onValueChange && this.props.onValueChange('');
     if (typeof this.props.onCancel === 'function') this.props.onCancel();
     if (this._input) this._input.blur();
